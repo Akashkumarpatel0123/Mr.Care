@@ -5,8 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        urbanist: ['Urbanist', 'sans-serif'],
+      },
+      colors: {
+          primary: "#8D2E7D",
+      },
+    },
   },
   plugins: [],
 }
-
