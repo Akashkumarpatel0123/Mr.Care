@@ -45,7 +45,7 @@ const IMInjection = () => {
 	transition={{ duration: 0.5 }}
 	className="container mx-auto px-4 py-8"
     >
-	<h1 className="text-3xl font-bold mb-8 text-gray-800">IM( intra muscular) Injection मांसपेशियों में दवा का इंजेक्शन होता है।</h1>
+	<h1 className="text-3xl font-bold mb-8 text-gray-800">IM (Intramuscular) injection involves administering medication into the muscles.</h1>
 	
 	<div className="mb-8">
 	  <motion.div 

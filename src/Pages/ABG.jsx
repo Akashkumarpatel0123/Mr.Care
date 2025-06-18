@@ -48,7 +48,7 @@ const ABG = () => {
       
       <h1 className="text-3xl font-bold mb-8 text-gray-800">ABG 
       <p className="text-lg font-normal mt-2 text-gray-600">
-        विशेषज्ञ नर्सों द्वारा धमनी रक्त गैस (ABG) विश्लेषण - सटीक नैदानिक परिणामों के लिए पेशेवर तकनीक से नमूना संग्रह
+        Arterial Blood Gas (ABG) analysis by expert nurses – Sample collection using professional techniques for accurate clinical results.
       </p>
       </h1>
       

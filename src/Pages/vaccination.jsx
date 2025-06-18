@@ -45,7 +45,7 @@ const Vaccination= () => {
 	transition={{ duration: 0.5 }}
 	className="container mx-auto px-4 py-8"
     >
-	<h1 className="text-3xl font-bold mb-8 text-gray-800">Mr.Care Homecare offers All vaccination इंजेक्शन्स और विभिन्न प्रकार के टीकाकरण की सेवाएं प्रदान करता है।</h1>
+	<h1 className="text-3xl font-bold mb-8 text-gray-800">Mr. Care Homecare offers all vaccination injections and provides services for various types of immunizations.</h1>
 	
 	<div className="mb-8">
 	  <motion.div 

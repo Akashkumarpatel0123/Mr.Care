@@ -45,7 +45,7 @@ const RylesTube = () => {
 	transition={{ duration: 0.5 }}
 	className="container mx-auto px-4 py-8"
     >
-	<h1 className="text-3xl font-bold mb-8 text-gray-800">Ryle's tube  प्रविष्टि एक नाक के माध्यम से भोजन, दवा और ड्रेनेज प्रदान करती है।</h1>
+	<h1 className="text-3xl font-bold mb-8 text-gray-800">Ryle's tube insertion provides nutrition, medication, and drainage through the nose.</h1>
 	
 	<div className="mb-8">
 	  <motion.div 

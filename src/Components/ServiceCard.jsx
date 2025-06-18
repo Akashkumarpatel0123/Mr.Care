@@ -81,7 +81,7 @@ const ServiceCard = ({
           className="w-full h-48 object-cover"
         />
         {tag && (
-          <div className={`absolute top-2 left-2 ${tagColor} text-white px-3 py-1 rounded-sm`}>
+          <div className={`absolute top-0 left-0 ${tagColor} text-white px-3 py-1 rounded-sm`}>
             {tag}
           </div>
         )}

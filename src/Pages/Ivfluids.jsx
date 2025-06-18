@@ -45,8 +45,7 @@ const Fluids = () => {
 	transition={{ duration: 0.5 }}
 	className="container mx-auto px-4 py-8"
     >
-	<h1 className="text-3xl font-bold mb-8 text-gray-800">Iv fluids
-शरीर में पानी, इलेक्ट्रोलाइट्स, पोषक तत्व या दवाइयां देने के लिए इस्तेमाल</h1>
+	<h1 className="text-3xl font-bold mb-8 text-gray-800">IV fluids are used to deliver water, electrolytes, nutrients, or medications into the body.</h1>
 	
 	<div className="mb-8">
 	  <motion.div 

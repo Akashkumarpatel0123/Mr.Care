@@ -45,7 +45,7 @@ const ECG = () => {
       transition={{ duration: 0.5 }}
       className="container mx-auto px-4 py-8"
     >
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">Mr.care की नर्सें पेशेवरता और देखभाल के साथ घर पर ईसीजी सेवा प्रदान करने में महत्वपूर्ण भूमिका निभाती हैं।</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">Mr. Care’s nurses play a vital role in providing ECG services at home with professionalism and care.</h1>
       
       <div className="mb-8">
         <motion.div 

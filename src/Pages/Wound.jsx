@@ -45,7 +45,7 @@ const Wound = () => {
 	transition={{ duration: 0.5 }}
 	className="container mx-auto px-4 py-8"
     >
-	<h1 className="text-3xl font-bold mb-8 text-gray-800"> Wound Dressingn  घाव की ड्रेसिंग उपचार को बढ़ावा देती है और बैक्टीरिया से सुरक्षा करती है।</h1>
+	<h1 className="text-3xl font-bold mb-8 text-gray-800"> Wound dressing promotes healing and protects against bacteria.</h1>
 	
 	<div className="mb-8">
 	  <motion.div 

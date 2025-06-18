@@ -45,7 +45,7 @@ const Enema = () => {
       transition={{ duration: 0.5 }}
       className="container mx-auto px-4 py-8"
     >
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">Enema procedure आंतों की सफाई, कब्ज से राहत या चिकित्सीय तैयारी के लिए की जाती है।</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">The enema procedure is performed for bowel cleansing, relief from constipation, or therapeutic preparation.</h1>
       
       <div className="mb-8">
         <motion.div 

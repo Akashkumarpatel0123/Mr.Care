@@ -45,7 +45,7 @@ const GRBS = () => {
       transition={{ duration: 0.5 }}
       className="container mx-auto px-4 py-8"
     >
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">GRBS टेस्ट रक्त शर्करा के स्तर की निगरानी करता है ताकि मधुमेह का प्रभावी प्रबंधन किया जा सके।</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">The GRBS test monitors blood sugar levels to enable effective diabetes management.</h1>
       
       <div className="mb-8">
         <motion.div 

@@ -47,7 +47,7 @@ const Chemo = () => {
     >
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Chemo-Port
       <p className="text-lg font-normal mt-2 text-gray-600">
-        Chemotherapy के दौरान पोर्ट का उपयोग करके दवाओं का सटीक और सुरक्षित प्रशासन।
+       Accurate and safe administration of medication using a port during chemotherapy.
       </p>
       </h1>
       

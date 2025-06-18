@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-
+import'./App.css';
 // Pages and Components
 import NurseProcedurePage from './Pages/NurseProceduresPage';
 import SplashScreen from './Components/splash-screen';

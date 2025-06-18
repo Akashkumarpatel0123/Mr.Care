@@ -48,7 +48,7 @@ const Cannula = () => {
       
       <h1 className="text-3xl font-bold mb-8 text-gray-800">I/V Cannula Insertion For Antibiotics
       <p className="text-lg font-normal mt-2 text-gray-600">
-        तेज़ और अधिक प्रभावी उपचार के लिए कैन्यूला के माध्यम से एंटीबायोटिक्स दिए जाते हैं।
+        Antibiotics are administered through a cannula for faster and more effective treatment.
       </p>
       </h1>
 

@@ -45,7 +45,7 @@ const Icu = () => {
 	transition={{ duration: 0.5 }}
 	className="container mx-auto px-4 py-8"
     >
-	<h1 className="text-3xl font-bold mb-8 text-gray-800">Icu specialistगंभीर एवं संकटापन्न मरीजों का चिकित्सा करते हैं।</h1>
+	<h1 className="text-3xl font-bold mb-8 text-gray-800">ICU specialists treat critically ill and emergency patients.</h1>
 	
 	<div className="mb-8">
 	  <motion.div 

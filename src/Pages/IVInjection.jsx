@@ -45,7 +45,7 @@ const IVInjection = () => {
       transition={{ duration: 0.5 }}
       className="container mx-auto px-4 py-8"
     >
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">IV Injection Services  दवा को सीधे रक्तप्रवाह में पहुंचाता है।</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">IV injection services deliver medication directly into the bloodstream.</h1>
       
       <div className="mb-8">
         <motion.div 

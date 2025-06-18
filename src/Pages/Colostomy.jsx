@@ -45,8 +45,7 @@ const Colostomy = () => {
       transition={{ duration: 0.5 }}
       className="container mx-auto px-4 py-8"
     >
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">Colostomy Bag Change
-विशेष उपकरणों का उपयोग करके, विशेषज्ञ देखभाल के साथ टांकों को हटाया जाता है ताकि सुरक्षा सुनिश्चित की जा सके।</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">Colostomy bag is changed with expert care using specialized equipment to ensure safety.</h1>
       
       <div className="mb-8">
         <motion.div 

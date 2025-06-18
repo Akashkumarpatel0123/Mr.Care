@@ -45,8 +45,7 @@ const Foley = () => {
       transition={{ duration: 0.5 }}
       className="container mx-auto px-4 py-8"
     >
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">Foley Cath Insertion
-फोले कैथेटर प्रविष्टि आरामदायक तरीके से उचित मूत्र प्रबंधन सुनिश्चित करती है।</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">Foley catheter insertion ensures proper urine management in a comfortable manner.</h1>
       
       <div className="mb-8">
         <motion.div 

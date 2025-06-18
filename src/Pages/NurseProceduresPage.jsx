@@ -5,183 +5,202 @@ import RequestCallButton from '../Components/RequestCallButton';
 
 const NurseProcedurePage = () => {
   const services = [
-    {
-      id: 'ryles-tube',
-      title: "Ryle's Tube Insertion",
-      image: 'https://images.pexels.com/photos/3279196/pexels-photo-3279196.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-      description: "Ryle's tube प्रविष्टि एक नाक के माध्यम से भोजन, दवा और ड्रेनेज प्रदान करती है।",
-      price: '1,500',
-      tag: 'Best Seller',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'wound-dressing',
-      title: 'Wound Dressing',
-      image: 'https://images.pexels.com/photos/5726706/pexels-photo-5726706.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-      description: 'घाव की ड्रेसिंग उपचार को बढ़ावा देती है और बैक्टीरिया से सुरक्षा करती है।',
-      price: '',
-      tag: 'Enquire Now',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'ecg',
-      title: 'ECG at Home',
-      image: 'https://images.pexels.com/photos/7089401/pexels-photo-7089401.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-      description: "Mr.care की नर्सें पेशेवरता और देखभाल के साथ घर पर ईसीजी सेवा प्रदान करने में महत्वपूर्ण भूमिका निभाती हैं।",
-      price: '',
-      tag: 'Enquire Now',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'iv-injection',
-      title: 'IV INJECTION',
-      image: './image12.jpg',
-      description: 'IV इंजेक्शन दवा को सीधे रक्तप्रवाह में पहुंचाता है।',
-      price: '1,500',
-      tag: 'Most Trusted',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'im-injection',
-      title: 'IM( intra muscular) Injection',
-      image: './image11.jpg',
-      description: 'IM( intra muscular) Injection मांसपेशियों में दवा का इंजेक्शन होता है।',
-      price: '1,500',
-      tag: 'Book Now',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'grbs',
-      title: 'General Random Blood Sugar (GRBS),BP',
-      image: 'https://images.pexels.com/photos/7088530/pexels-photo-7088530.jpeg',
-      description: 'GRBS टेस्ट रक्त शर्करा के स्तर की निगरानी करता है ताकि मधुमेह का प्रभावी प्रबंधन किया जा सके।',
-      price: '1,000',
-      tag: 'Best Seller',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'sc-injection',
-      title: 'All vaccination',
-      image: './image6.jpg',
-      description: 'Mr.Care Homecare offers All vaccination इंजेक्शन्स और विभिन्न प्रकार के टीकाकरण की सेवाएं प्रदान करता है।',
-      price: '1,200',
-      tag: 'Best Seller',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'iv-infusion',
-      title: 'IV INFUSION (Cannula already in place)',
-      image: './image7.jpg',
-      description: 'पूर्व-स्थापित कैन्यूला के साथ IV infusion . (Rs.250/Hr for extra hours)',
-      price: '1,500',
-      tag: 'Best Seller',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'iv-cannula',
-      title: 'I/V Cannula Insertion For Antibiotics',
-      image: 'https://images.pexels.com/photos/7088530/pexels-photo-7088530.jpeg',
-      description: 'तेज़ और अधिक प्रभावी उपचार के लिए कैन्यूला के माध्यम से एंटीबायोटिक्स दिए जाते हैं।',
-      price: '1,500',
-      tag: 'Most Trusted',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'enema',
-      title: 'Enema',
-      image: 'https://images.pexels.com/photos/7088532/pexels-photo-7088532.jpeg',
-      description: 'Enema procedure आंतों की सफाई, कब्ज से राहत या चिकित्सीय तैयारी के लिए की जाती है।',
-      price: '1,500',
-      tag: 'Best Seller',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'suture-removal',
-      title: 'Suture/stitches 🪡 Removal',
-      image: './image8.jpg',
-      description: 'Suture removal with expert care, using specialized tools for safety.',
-      price: '2,000',
-      tag: 'Best Seller',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'colostomy',
-      title: 'Colostomy Bag Change',
-      image: 'https://images.pexels.com/photos/7088536/pexels-photo-7088536.jpeg',
-      description: 'विशेष उपकरणों का उपयोग करके, विशेषज्ञ देखभाल के साथ टांकों को हटाया जाता है ताकि सुरक्षा सुनिश्चित की जा सके।',
-      price: '2,000',
-      tag: 'Best Seller',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'foley-cath',
-      title: 'Foley Cath Insertion',
-      image: 'https://images.pexels.com/photos/7088538/pexels-photo-7088538.jpeg',
-      description: 'फोले कैथेटर प्रविष्टि आरामदायक तरीके से उचित मूत्र प्रबंधन सुनिश्चित करती है।',
-      price: '2,200',
-      tag: 'Best Seller',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'abg',
-      title: 'ABG Collection',
-      image: './image9.jpg',
-      description: 'सटीक निदान के लिए पेशेवर रूप से आर्टेरियल ब्लड गैस (ABG) संग्रह किया जाता है।',
-      price: '2,500',
-      tag: 'Most Trusted',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'chemo-port',
-      title: 'Chemo-Port',
-      image: './image10.jpg',
-      description: 'Chemotherapy Port रखरखाव और पहुँच के लिए विशेषज्ञ देखभाल।',
-      tag: 'Book Now',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'iv-fluids',
-      title: 'Iv fluids',
-      image: './image3.jpg',
-      description: 'शरीर में पानी, इलेक्ट्रोलाइट्स, पोषक तत्व या दवाइयां देने के लिए इस्तेमाल',
-      tag: 'Book Now',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'Icu-specialist',
-      title: 'Icu specialist',
-      image: './image4.jpg',
-      description: 'Icu specialistगंभीर एवं संकटापन्न मरीजों का चिकित्सा करते हैं।',
-      tag: 'Book Now',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-    {
-      id: 'NICU-specialist',
-      title: 'NICU specialist',
-      image: './image5.jpg',
-      description: 'NICU specialist वजात शिशुओं की विशेष देखभाल करते हैं।',
-      tag: 'Book Now',
-      tagColor: 'bg-[#FF7043]',
-      cta: 'Book Now'
-    },
-  ];
+  {
+    id: 'ryles-tube',
+    title: "Ryle's Tube Insertion",
+    image: 'https://images.pexels.com/photos/3279196/pexels-photo-3279196.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    englishDescription: 'Ryle’s tube insertion allows for food, medicine, and drainage through the nose.',
+    hindiDescription: "Ryle's tube प्रविष्टि एक नाक के माध्यम से भोजन, दवा और ड्रेनेज प्रदान करती है।",
+    price: '1,500',
+    tag: 'Best Seller',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'wound-dressing',
+    title: 'Wound Dressing',
+    image: 'https://images.pexels.com/photos/5726706/pexels-photo-5726706.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    englishDescription: 'Wound dressing promotes healing and protects against bacteria.',
+    hindiDescription: 'घाव की ड्रेसिंग उपचार को बढ़ावा देती है और बैक्टीरिया से सुरक्षा करती है।',
+    price: '',
+    tag: 'Enquire Now',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'ecg',
+    title: 'ECG at Home',
+    image: 'https://images.pexels.com/photos/7089401/pexels-photo-7089401.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    englishDescription: 'Mr.Care nurses play a vital role in providing ECG services at home with care and professionalism.',
+    hindiDescription: "Mr.care की नर्सें पेशेवरता और देखभाल के साथ घर पर ईसीजी सेवा प्रदान करने में महत्वपूर्ण भूमिका निभाती हैं।",
+    price: '',
+    tag: 'Enquire Now',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'iv-injection',
+    title: 'IV INJECTION',
+    image: './image12.jpg',
+    englishDescription: 'IV injection delivers medication directly into the bloodstream.',
+    hindiDescription: 'IV इंजेक्शन दवा को सीधे रक्तप्रवाह में पहुंचाता है।',
+    price: '1,500',
+    tag: 'Most Trusted',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'im-injection',
+    title: 'IM( intra muscular) Injection',
+    image: './image11.jpg',
+    englishDescription: 'IM injection is administered directly into the muscles.',
+    hindiDescription: 'IM( intra muscular) Injection मांसपेशियों में दवा का इंजेक्शन होता है।',
+    price: '1,500',
+    tag: 'Book Now',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'grbs',
+    title: 'General Random Blood Sugar (GRBS),BP',
+    image: 'https://images.pexels.com/photos/7088530/pexels-photo-7088530.jpeg',
+    englishDescription: 'GRBS test monitors blood sugar levels for effective diabetes management.',
+    hindiDescription: 'GRBS टेस्ट रक्त शर्करा के स्तर की निगरानी करता है ताकि मधुमेह का प्रभावी प्रबंधन किया जा सके।',
+    price: '1,000',
+    tag: 'Best Seller',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'sc-injection',
+    title: 'All vaccination',
+    image: './image6.jpg',
+    englishDescription: 'Mr.Care Homecare offers all vaccination injections and services.',
+    hindiDescription: 'Mr.Care Homecare offers All vaccination इंजेक्शन्स और विभिन्न प्रकार के टीकाकरण की सेवाएं प्रदान करता है।',
+    price: '1,200',
+    tag: 'Best Seller',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'iv-infusion',
+    title: 'IV INFUSION (Cannula already in place)',
+    image: './image7.jpg',
+    englishDescription: 'IV infusion with pre-inserted cannula. (Rs.250/Hr for extra hours)',
+    hindiDescription: 'पूर्व-स्थापित कैन्यूला के साथ IV infusion . (Rs.250/Hr for extra hours)',
+    price: '1,500',
+    tag: 'Best Seller',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'iv-cannula',
+    title: 'I/V Cannula Insertion For Antibiotics',
+    image: 'https://images.pexels.com/photos/7088530/pexels-photo-7088530.jpeg',
+    englishDescription: 'Antibiotics are given through cannula for fast and effective treatment.',
+    hindiDescription: 'तेज़ और अधिक प्रभावी उपचार के लिए कैन्यूला के माध्यम से एंटीबायोटिक्स दिए जाते हैं।',
+    price: '1,500',
+    tag: 'Most Trusted',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'enema',
+    title: 'Enema',
+    image: 'https://images.pexels.com/photos/7088532/pexels-photo-7088532.jpeg',
+    englishDescription: 'Enema is performed for bowel cleansing, constipation relief, or medical prep.',
+    hindiDescription: 'Enema procedure आंतों की सफाई, कब्ज से राहत या चिकित्सीय तैयारी के लिए की जाती है।',
+    price: '1,500',
+    tag: 'Best Seller',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'suture-removal',
+    title: 'Suture/stitches 🪡 Removal',
+    image: './image8.jpg',
+    englishDescription: 'Suture removal with expert care, using specialized tools for safety.',
+    hindiDescription: 'विशेष उपकरणों का उपयोग करके, विशेषज्ञ देखभाल के साथ टांकों को हटाया जाता है ताकि सुरक्षा सुनिश्चित की जा सके।',
+    price: '2,000',
+    tag: 'Best Seller',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'colostomy',
+    title: 'Colostomy Bag Change',
+    image: 'https://images.pexels.com/photos/7088536/pexels-photo-7088536.jpeg',
+    englishDescription: 'Colostomy bag changed with expert care using proper tools.',
+    hindiDescription: 'विशेष उपकरणों का उपयोग करके, विशेषज्ञ देखभाल के साथ टांकों को हटाया जाता है ताकि सुरक्षा सुनिश्चित की जा सके।',
+    price: '2,000',
+    tag: 'Best Seller',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'foley-cath',
+    title: 'Foley Cath Insertion',
+    image: 'https://images.pexels.com/photos/7088538/pexels-photo-7088538.jpeg',
+    englishDescription: 'Foley catheter insertion ensures proper urinary management with comfort.',
+    hindiDescription: 'फोले कैथेटर प्रविष्टि आरामदायक तरीके से उचित मूत्र प्रबंधन सुनिश्चित करती है।',
+    price: '2,200',
+    tag: 'Best Seller',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'abg',
+    title: 'ABG Collection',
+    image: './image9.jpg',
+    englishDescription: 'Arterial Blood Gas (ABG) sampling is done professionally for accurate diagnosis.',
+    hindiDescription: 'सटीक निदान के लिए पेशेवर रूप से आर्टेरियल ब्लड गैस (ABG) संग्रह किया जाता है।',
+    price: '2,500',
+    tag: 'Most Trusted',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'chemo-port',
+    title: 'Chemo-Port',
+    image: './image10.jpg',
+    englishDescription: 'Chemotherapy port is accessed and maintained with professional care.',
+    hindiDescription: 'Chemotherapy Port रखरखाव और पहुँच के लिए विशेषज्ञ देखभाल।',
+    tag: 'Book Now',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'iv-fluids',
+    title: 'Iv fluids',
+    image: './image3.jpg',
+    englishDescription: 'Used to provide water, electrolytes, nutrients, or medications to the body.',
+    hindiDescription: 'शरीर में पानी, इलेक्ट्रोलाइट्स, पोषक तत्व या दवाइयां देने के लिए इस्तेमाल',
+    tag: 'Book Now',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'Icu-specialist',
+    title: 'Icu specialist',
+    image: './image4.jpg',
+    englishDescription: 'ICU specialists care for critically ill and emergency patients.',
+    hindiDescription: 'Icu specialistगंभीर एवं संकटापन्न मरीजों का चिकित्सा करते हैं।',
+    tag: 'Book Now',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  },
+  {
+    id: 'NICU-specialist',
+    title: 'NICU specialist',
+    image: './image5.jpg',
+    englishDescription: 'NICU specialists provide advanced care for newborns.',
+    hindiDescription: 'NICU specialist वजात शिशुओं की विशेष देखभाल करते हैं।',
+    tag: 'Book Now',
+    tagColor: 'bg-[#FF7043]',
+    cta: 'Book Now'
+  }
+];
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
@@ -209,7 +228,7 @@ const NurseProcedurePage = () => {
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 md:p-8 mb-8">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Nurse Procedure Services</h1>
-        <p className="text-lg text-gray-600 max-w-3xl">
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
           Professional nursing care delivered to your doorstep. Our certified nurses provide a wide range of medical procedures with compassion and expertise.
         </p>
       </div>
@@ -224,7 +243,7 @@ const NurseProcedurePage = () => {
               id={service.id}
               title={service.title}
               image={service.image}
-              description={service.description}
+              description={service.englishDescription}
               price={service.price}
               tag={service.tag}
               tagColor={service.tagColor}

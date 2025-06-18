@@ -45,7 +45,7 @@ const Infusion = () => {
 	transition={{ duration: 0.5 }}
 	className="container mx-auto px-4 py-8"
     >
-	<h1 className="text-3xl font-bold mb-8 text-gray-800">पूर्व-स्थापित कैन्यूला के साथ IV infusion . (Rs.250/Hr for extra hours)</h1>
+	<h1 className="text-3xl font-bold mb-8 text-gray-800">IV infusion with pre-established cannula. (Rs. 250/hour for extra hours)</h1>
 	
 	<div className="mb-8">
 	  <motion.div 
