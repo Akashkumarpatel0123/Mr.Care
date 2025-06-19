@@ -47,6 +47,7 @@ export default function Register() {
         alert(data.message || "Failed to send OTP");
       }
     } catch (error) {
+      console.log(error);
       alert("Network error while sending OTP");
     }
   };
