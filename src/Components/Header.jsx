@@ -140,9 +140,9 @@ const Header = () => {
                     key={index}
                     className="p-2 border-b border-gray-100 text-xs hover:bg-gray-100 cursor-pointer"
                     onClick={() => {
-                      setSearchQuery(result.name);
+                      setSearchQuery(result);
                       setSearchResults([]);
-                      toast.success(`Selected: ${result.name}`);
+                      toast.success(`Selected: ${result}`);
                       // Optionally: navigate(`/services/${result._id}`);
                     }}
                   >
