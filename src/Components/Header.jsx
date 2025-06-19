@@ -32,7 +32,8 @@ const Header = () => {
     try {
       const response = await fetch(`http://localhost:10000/api/service/search?query=${encodeURIComponent(query)}`);
       const data = await response.json();
-      setSearchResults(data?.services || []);
+      console.log(data);
+      setSearchResults(data?.services || ['Nothing Found!']);
     } catch (error) {
       console.error("Search failed", error);
       setSearchResults([]);
@@ -145,7 +146,7 @@ const Header = () => {
                       // Optionally: navigate(`/services/${result._id}`);
                     }}
                   >
-                    {result.name}
+                    {result}
                   </div>
                 ))
               )}
