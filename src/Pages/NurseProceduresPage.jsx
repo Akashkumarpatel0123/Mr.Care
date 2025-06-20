@@ -227,8 +227,8 @@ const NurseProcedurePage = () => {
 
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 md:p-8 mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Nurse Procedure Services</h1>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+        <h1 className="text-4xl md:text-5xl text-center font-bold text-gray-800 mb-4">Nurse Procedure Services</h1>
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto text-center ">
           Professional nursing care delivered to your doorstep. Our certified nurses provide a wide range of medical procedures with compassion and expertise.
         </p>
       </div>
