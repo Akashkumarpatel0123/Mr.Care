@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../AuthContext';
 
-const Header = () => {
+const Header = ({ onServiceSelect }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [location, setLocation] = useState("Fetching location...");
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,9 +18,7 @@ const Header = () => {
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
-  const handleLogin = () => {
-    navigate('/login');
-  };
+  const handleLogin = () => navigate('/login');
 
   const handleLogout = () => {
     logout();
@@ -30,9 +28,10 @@ const Header = () => {
 
   const fetchSearchResults = async (query) => {
     try {
-      const response = await fetch(`http://localhost:10000/api/service/search?query=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `http://localhost:10000/api/service/search?query=${encodeURIComponent(query)}`
+      );
       const data = await response.json();
-      console.log(data);
       setSearchResults(data?.services || ['Nothing Found!']);
     } catch (error) {
       console.error("Search failed", error);
@@ -50,14 +49,17 @@ const Header = () => {
     };
   };
 
-  const handleSearch = useCallback(debounce((query) => {
-    if (query.trim()) {
-      setIsSearching(true);
-      fetchSearchResults(query);
-    } else {
-      setSearchResults([]);
-    }
-  }, 500), []);
+  const handleSearch = useCallback(
+    debounce((query) => {
+      if (query.trim()) {
+        setIsSearching(true);
+        fetchSearchResults(query);
+      } else {
+        setSearchResults([]);
+      }
+    }, 500),
+    []
+  );
 
   const handleSearchChange = (e) => {
     const query = e.target.value;
@@ -135,20 +137,23 @@ const Header = () => {
               {isSearching ? (
                 <div className="p-2 text-center text-xs text-gray-500">Searching...</div>
               ) : (
-                searchResults.map((result, index) => (
-                  <div
-                    key={index}
-                    className="p-2 border-b border-gray-100 text-xs hover:bg-gray-100 cursor-pointer"
-                    onClick={() => {
-                      setSearchQuery(result.name);
-                      setSearchResults([]);
-                      toast.success(`Selected: ${result.name}`);
-                      // Optionally: navigate(`/services/${result._id}`);
-                    }}
-                  >
-                    {result}
-                  </div>
-                ))
+                searchResults.map((result, index) => {
+                  const name = typeof result === 'string' ? result : result.name;
+                  return (
+                    <div
+                      key={index}
+                      className="p-2 border-b border-gray-100 text-xs hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        setSearchQuery(name);
+                        setSearchResults([]);
+                        toast.success(`Selected: ${name}`);
+                        if (onServiceSelect) onServiceSelect(name);
+                      }}
+                    >
+                      {name}
+                    </div>
+                  );
+                })
               )}
             </div>
           )}

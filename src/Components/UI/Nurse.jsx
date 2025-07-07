@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { FaUserNurse, FaIdCard, FaGraduationCap, FaFileAlt, FaCamera, FaCheckCircle, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaUserNurse, FaIdCard, FaGraduationCap, FaFileAlt, FaCamera, FaCheckCircle, FaClock, FaMapMarkerAlt, FaShieldAlt } from 'react-icons/fa';
 
 const NurseRegistrationForm = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
-    email: '',
     dob: '',
+    services: [],
     aadharNumber: '',
-    instituteName: '',
+    higherEducationInstitute: '',
     experienceYears: '',
-    academicMarks: '',
+    highestEducationMarks: '',
     resume: null,
     aadharFront: null,
     aadharBack: null,
-    marksheet: null,
-    trainingCertificate: null,
+    experienceCertificate: null,
+    policeVerification: null,
     profilePhoto: null,
     workHours: 'Full-time',
     preferredLocation: '',
@@ -29,11 +29,44 @@ const NurseRegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const availableServices = [
+    "Ryle's Tube Insertion",
+    "Wound Dressing",
+    "ECG at Home",
+    "IV Injection",
+    "IM Injection",
+    "GRBS Monitoring",
+    "All Vaccinations",
+    "IV Infusion",
+    "IV Cannula",
+    "Enema",
+    "Suture Removal",
+    "Colostomy Care",
+    "Foley Catheter",
+    "ABG Collection",
+    "Chemo-Port Care",
+    "IV Fluids",
+    "ICU Care",
+    "NICU Care",
+    "Nebulization"
+  ];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value
+    });
+  };
+
+  const handleServiceChange = (service) => {
+    const updatedServices = formData.services.includes(service)
+      ? formData.services.filter(s => s !== service)
+      : [...formData.services, service];
+    
+    setFormData({
+      ...formData,
+      services: updatedServices
     });
   };
 
@@ -49,42 +82,35 @@ const NurseRegistrationForm = () => {
     const newErrors = {};
     
     if (step === 1) {
-      if (!formData.fullName) newErrors.fullName = 'Full Name is required';
+      if (!formData.fullName) newErrors.fullName = 'Required';
       if (!formData.phoneNumber || !/^\d{10}$/.test(formData.phoneNumber)) {
-        newErrors.phoneNumber = 'Valid 10-digit phone number required';
+        newErrors.phoneNumber = 'Invalid number';
       }
-      if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
-        newErrors.email = 'Valid email required';
-      }
-      if (!formData.dob) newErrors.dob = 'Date of Birth is required';
+      if (!formData.dob) newErrors.dob = 'Required';
+      if (formData.services.length === 0) newErrors.services = 'Select at least one';
     }
     
     if (step === 2) {
       if (!formData.aadharNumber || !/^\d{12}$/.test(formData.aadharNumber)) {
-        newErrors.aadharNumber = 'Valid 12-digit Aadhar number required';
+        newErrors.aadharNumber = 'Invalid Aadhar';
       }
-      if (!formData.aadharFront) newErrors.aadharFront = 'Aadhar front photo required';
-      if (!formData.aadharBack) newErrors.aadharBack = 'Aadhar back photo required';
+      if (!formData.aadharFront) newErrors.aadharFront = 'Required';
+      if (!formData.aadharBack) newErrors.aadharBack = 'Required';
     }
     
     if (step === 3) {
-      if (!formData.instituteName) newErrors.instituteName = 'Institute name required';
-      if (!formData.experienceYears || isNaN(formData.experienceYears) || formData.experienceYears < 2) {
-        newErrors.experienceYears = 'Valid experience required (minimum 2 years)';
+      if (!formData.experienceYears || isNaN(formData.experienceYears)) {
+        newErrors.experienceYears = 'Required';
       }
-      if (!formData.academicMarks) newErrors.academicMarks = 'Academic marks required';
-      if (!formData.marksheet) newErrors.marksheet = 'Marksheet photo required';
-      if (!formData.trainingCertificate) {
-        newErrors.trainingCertificate = 'Training certificate required';
-      }
+      if (!formData.experienceCertificate) newErrors.experienceCertificate = 'Required';
     }
     
     if (step === 4) {
-      if (!formData.profilePhoto) newErrors.profilePhoto = 'Profile photo required';
-      if (!formData.resume) newErrors.resume = 'Resume required';
-      if (!formData.preferredLocation) newErrors.preferredLocation = 'Preferred location required';
-      if (!formData.termsAccepted) newErrors.termsAccepted = 'You must accept terms';
-      if (!formData.documentVerification) newErrors.documentVerification = 'You must authorize verification';
+      if (!formData.profilePhoto) newErrors.profilePhoto = 'Required';
+      if (!formData.resume) newErrors.resume = 'Required';
+      if (!formData.preferredLocation) newErrors.preferredLocation = 'Required';
+      if (!formData.termsAccepted) newErrors.termsAccepted = 'Required';
+      if (!formData.documentVerification) newErrors.documentVerification = 'Required';
     }
     
     setErrors(newErrors);
@@ -107,24 +133,56 @@ const NurseRegistrationForm = () => {
     e.preventDefault();
     if (validateStep(currentStep)) {
       setIsSubmitting(true);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
-      setIsSubmitted(true);
+      const form = new FormData();
+
+      // Append fields
+      Object.keys(formData).forEach((key) => {
+        if (Array.isArray(formData[key])) {
+          form.append(key, JSON.stringify(formData[key]));
+        } else if (formData[key] instanceof File) {
+          form.append(key, formData[key]);
+        } else {
+          form.append(key, formData[key]);
+        }
+      });
+
+      try {
+        const response = await fetch('http://localhost:10000/api/nurse/kyc', {
+          method: 'POST',
+          body: form,
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          setIsSubmitted(true);
+        } else {
+          alert('Submission failed!');
+        }
+      } catch (error) {
+        console.error('Submission error:', error);
+        alert('Error submitting form.');
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
+
+  const RequiredLabel = ({ children }) => (
+    <span className="flex items-center">
+      {children} <span className="text-red-500 ml-1">*</span>
+    </span>
+  );
 
   const renderStep = () => {
     if (isSubmitted) {
       return (
-        <div className="text-center py-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
-            <FaCheckCircle className="text-5xl text-green-600" />
+        <div className="text-center py-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+            <FaCheckCircle className="text-4xl text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Application Submitted Successfully!</h2>
-          <p className="text-gray-600 mb-6 max-w-md mx-auto">
-            Thank you for registering with Mr. Care. Our team will review your application and contact you within 2-3 business days.
+          <h2 className="text-xl font-bold text-gray-800 mb-2">Application Submitted!</h2>
+          <p className="text-gray-600 mb-6 text-sm max-w-md mx-auto">
+            Thank you for registering. We'll review your application and contact you within 2-3 business days.
           </p>
           <button
             onClick={() => {
@@ -133,17 +191,17 @@ const NurseRegistrationForm = () => {
               setFormData({
                 fullName: '',
                 phoneNumber: '',
-                email: '',
                 dob: '',
+                services: [],
                 aadharNumber: '',
-                instituteName: '',
+                higherEducationInstitute: '',
                 experienceYears: '',
-                academicMarks: '',
+                highestEducationMarks: '',
                 resume: null,
                 aadharFront: null,
                 aadharBack: null,
-                marksheet: null,
-                trainingCertificate: null,
+                experienceCertificate: null,
+                policeVerification: null,
                 profilePhoto: null,
                 workHours: 'Full-time',
                 preferredLocation: '',
@@ -152,7 +210,8 @@ const NurseRegistrationForm = () => {
                 documentVerification: false
               });
             }}
-            className="px-6 py-2 bg-purple-700 text-white rounded-lg hover:bg-purple-800 transition-colors"
+            className="px-5 py-2 text-sm text-white rounded-lg hover:bg-[#7a276d] transition-colors"
+            style={{ backgroundColor: '#8D2E7D' }}
           >
             Back to Home
           </button>
@@ -163,91 +222,117 @@ const NurseRegistrationForm = () => {
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-purple-800 flex items-center">
-              <FaUserNurse className="mr-2" /> Personal Information
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold flex items-center" style={{ color: '#8D2E7D' }}>
+              <FaUserNurse className="mr-2 text-lg" /> Personal Info
             </h2>
             
-            <div>
-              <label className="block text-gray-700 mb-1">Full Name*</label>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 ${errors.fullName ? 'border-red-500' : 'border-gray-300'}`}
-                placeholder="Enter your full name"
-              />
-              {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Full Name</RequiredLabel>
+                </label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  className={`w-full p-2 text-sm border rounded focus:ring-1 ${errors.fullName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-[#8D2E7D]'}`}
+                  placeholder="Your full name"
+                />
+                {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
+              </div>
+              
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Phone</RequiredLabel>
+                </label>
+                <input
+                  type="tel"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  className={`w-full p-2 text-sm border rounded focus:ring-1 ${errors.phoneNumber ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-[#8D2E7D]'}`}
+                  placeholder="10-digit number"
+                />
+                {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
+              </div>
+              
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>DOB</RequiredLabel>
+                </label>
+                <input
+                  type="date"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                  className={`w-full p-2 text-sm border rounded focus:ring-1 ${errors.dob ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-[#8D2E7D]'}`}
+                />
+                {errors.dob && <p className="text-red-500 text-xs mt-1">{errors.dob}</p>}
+              </div>
             </div>
-            
-            <div>
-              <label className="block text-gray-700 mb-1">Phone Number*</label>
-              <input
-                type="tel"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
-                placeholder="10-digit mobile number"
-              />
-              {errors.phoneNumber && <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>}
-            </div>
-            
-            <div>
-              <label className="block text-gray-700 mb-1">Email Address*</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
-                placeholder="Enter your email"
-              />
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-            </div>
-            
-            <div>
-              <label className="block text-gray-700 mb-1">Date of Birth*</label>
-              <input
-                type="date"
-                name="dob"
-                value={formData.dob}
-                onChange={handleChange}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 ${errors.dob ? 'border-red-500' : 'border-gray-300'}`}
-              />
-              {errors.dob && <p className="text-red-500 text-sm mt-1">{errors.dob}</p>}
+
+            <div className="pt-2">
+              <label className="block text-sm text-gray-700 mb-1">
+                <RequiredLabel>Services</RequiredLabel>
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                {availableServices.map((service) => (
+                  <div key={service} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={`service-${service}`}
+                      checked={formData.services.includes(service)}
+                      onChange={() => handleServiceChange(service)}
+                      className="h-3 w-3 rounded focus:ring-[#8D2E7D]"
+                      style={{ color: '#8D2E7D' }}
+                    />
+                    <label htmlFor={`service-${service}`} className="ml-2 text-xs text-gray-700">
+                      {service}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {errors.services && <p className="text-red-500 text-xs mt-1">{errors.services}</p>}
             </div>
           </div>
         );
         
       case 2:
         return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-purple-800 flex items-center">
-              <FaIdCard className="mr-2" /> Aadhar Verification
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold flex items-center" style={{ color: '#8D2E7D' }}>
+              <FaIdCard className="mr-2 text-lg" /> Aadhar Verification
             </h2>
             
-            <div>
-              <label className="block text-gray-700 mb-1">Aadhar Card Number*</label>
-              <input
-                type="text"
-                name="aadharNumber"
-                value={formData.aadharNumber}
-                onChange={handleChange}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 ${errors.aadharNumber ? 'border-red-500' : 'border-gray-300'}`}
-                placeholder="12-digit Aadhar number"
-              />
-              {errors.aadharNumber && <p className="text-red-500 text-sm mt-1">{errors.aadharNumber}</p>}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Aadhar Number</RequiredLabel>
+                </label>
+                <input
+                  type="text"
+                  name="aadharNumber"
+                  value={formData.aadharNumber}
+                  onChange={handleChange}
+                  className={`w-full p-2 text-sm border rounded focus:ring-1 ${errors.aadharNumber ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-[#8D2E7D]'}`}
+                  placeholder="12-digit number"
+                />
+                {errors.aadharNumber && <p className="text-red-500 text-xs mt-1">{errors.aadharNumber}</p>}
+              </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-gray-700 mb-1">Aadhar Front Photo*</label>
-                <div className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${errors.aadharFront ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-purple-400 bg-gray-50'}`}>
-                  <label className="cursor-pointer">
-                    <FaCamera className="mx-auto text-3xl text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-600">Click to upload front side</p>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Front Photo</RequiredLabel>
+                </label>
+                <div className={`border border-dashed rounded p-4 text-center transition-colors ${errors.aadharFront ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-[#8D2E7D] bg-gray-50'}`}>
+                  <label className="cursor-pointer flex flex-col items-center">
+                    <FaCamera className="text-2xl text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600">Upload front side</p>
+                    <p className="text-xs text-gray-500 mt-1">(JPG, PNG, max 5MB)</p>
                     <input
                       type="file"
                       name="aadharFront"
@@ -257,18 +342,21 @@ const NurseRegistrationForm = () => {
                     />
                   </label>
                   {formData.aadharFront && (
-                    <p className="text-sm text-green-600 mt-2">{formData.aadharFront.name}</p>
+                    <p className="text-xs text-green-600 mt-2 truncate">{formData.aadharFront.name}</p>
                   )}
                 </div>
-                {errors.aadharFront && <p className="text-red-500 text-sm mt-1">{errors.aadharFront}</p>}
+                {errors.aadharFront && <p className="text-red-500 text-xs mt-1">{errors.aadharFront}</p>}
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-1">Aadhar Back Photo*</label>
-                <div className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${errors.aadharBack ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-purple-400 bg-gray-50'}`}>
-                  <label className="cursor-pointer">
-                    <FaCamera className="mx-auto text-3xl text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-600">Click to upload back side</p>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Back Photo</RequiredLabel>
+                </label>
+                <div className={`border border-dashed rounded p-4 text-center transition-colors ${errors.aadharBack ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-[#8D2E7D] bg-gray-50'}`}>
+                  <label className="cursor-pointer flex flex-col items-center">
+                    <FaCamera className="text-2xl text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600">Upload back side</p>
+                    <p className="text-xs text-gray-500 mt-1">(JPG, PNG, max 5MB)</p>
                     <input
                       type="file"
                       name="aadharBack"
@@ -278,10 +366,10 @@ const NurseRegistrationForm = () => {
                     />
                   </label>
                   {formData.aadharBack && (
-                    <p className="text-sm text-green-600 mt-2">{formData.aadharBack.name}</p>
+                    <p className="text-xs text-green-600 mt-2 truncate">{formData.aadharBack.name}</p>
                   )}
                 </div>
-                {errors.aadharBack && <p className="text-red-500 text-sm mt-1">{errors.aadharBack}</p>}
+                {errors.aadharBack && <p className="text-red-500 text-xs mt-1">{errors.aadharBack}</p>}
               </div>
             </div>
           </div>
@@ -289,158 +377,168 @@ const NurseRegistrationForm = () => {
         
       case 3:
         return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-purple-800 flex items-center">
-              <FaGraduationCap className="mr-2" /> Education & Experience
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold flex items-center" style={{ color: '#8D2E7D' }}>
+              <FaGraduationCap className="mr-2 text-lg" /> Education & Experience
             </h2>
             
-            <div>
-              <label className="block text-gray-700 mb-1">Nursing Institute Name*</label>
-              <input
-                type="text"
-                name="instituteName"
-                value={formData.instituteName}
-                onChange={handleChange}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 ${errors.instituteName ? 'border-red-500' : 'border-gray-300'}`}
-                placeholder="Name of your nursing institute"
-              />
-              {errors.instituteName && <p className="text-red-500 text-sm mt-1">{errors.instituteName}</p>}
-            </div>
-            
-            <div>
-              <label className="block text-gray-700 mb-1">Years of Experience* (Minimum 2 years required)</label>
-              <input
-                type="number"
-                name="experienceYears"
-                value={formData.experienceYears}
-                onChange={handleChange}
-                min="2"
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 ${errors.experienceYears ? 'border-red-500' : 'border-gray-300'}`}
-                placeholder="Years of nursing experience"
-              />
-              {errors.experienceYears && <p className="text-red-500 text-sm mt-1">{errors.experienceYears}</p>}
-            </div>
-            
-            <div>
-              <label className="block text-gray-700 mb-1">Academic Marks/Grades*</label>
-              <input
-                type="text"
-                name="academicMarks"
-                value={formData.academicMarks}
-                onChange={handleChange}
-                className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 ${errors.academicMarks ? 'border-red-500' : 'border-gray-300'}`}
-                placeholder="Your academic marks or grades"
-              />
-              {errors.academicMarks && <p className="text-red-500 text-sm mt-1">{errors.academicMarks}</p>}
-            </div>
-            
-            <div>
-              <label className="block text-gray-700 mb-1">Marksheet Photo*</label>
-              <div className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${errors.marksheet ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-purple-400 bg-gray-50'}`}>
-                <label className="cursor-pointer">
-                  <FaFileAlt className="mx-auto text-3xl text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-600">Click to upload marksheet</p>
-                  <input
-                    type="file"
-                    name="marksheet"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    accept="image/*"
-                  />
-                </label>
-                {formData.marksheet && (
-                  <p className="text-sm text-green-600 mt-2">{formData.marksheet.name}</p>
-                )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">Higher Education Institute</label>
+                <input
+                  type="text"
+                  name="higherEducationInstitute"
+                  value={formData.higherEducationInstitute}
+                  onChange={handleChange}
+                  className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-[#8D2E7D]"
+                  placeholder="Name of your highest education institute"
+                />
               </div>
-              {errors.marksheet && <p className="text-red-500 text-sm mt-1">{errors.marksheet}</p>}
+              
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Experience (Years)</RequiredLabel>
+                </label>
+                <input
+                  type="number"
+                  name="experienceYears"
+                  value={formData.experienceYears}
+                  onChange={handleChange}
+                  className={`w-full p-2 text-sm border rounded focus:ring-1 ${errors.experienceYears ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-[#8D2E7D]'}`}
+                  placeholder="Years of experience"
+                />
+                {errors.experienceYears && <p className="text-red-500 text-xs mt-1">{errors.experienceYears}</p>}
+              </div>
+              
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">Highest Education Marks/Grades</label>
+                <input
+                  type="text"
+                  name="highestEducationMarks"
+                  value={formData.highestEducationMarks}
+                  onChange={handleChange}
+                  className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-[#8D2E7D]"
+                  placeholder="Marks/grades from your highest education"
+                />
+              </div>
             </div>
             
-            <div>
-              <label className="block text-gray-700 mb-1">Training Certificate*</label>
-              <div className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${errors.trainingCertificate ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-purple-400 bg-gray-50'}`}>
-                <label className="cursor-pointer">
-                  <FaFileAlt className="mx-auto text-3xl text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-600">Click to upload training certificate</p>
-                  <input
-                    type="file"
-                    name="trainingCertificate"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    accept="image/*"
-                  />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Bihar Nursing Council Certificate</RequiredLabel>
                 </label>
-                {formData.trainingCertificate && (
-                  <p className="text-sm text-green-600 mt-2">{formData.trainingCertificate.name}</p>
-                )}
+                <div className={`border border-dashed rounded p-4 text-center transition-colors ${errors.experienceCertificate ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-[#8D2E7D] bg-gray-50'}`}>
+                  <label className="cursor-pointer flex flex-col items-center">
+                    <FaFileAlt className="text-2xl text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600">Upload certificate</p>
+                    <p className="text-xs text-gray-500 mt-1">(PDF, JPG, PNG, max 5MB)</p>
+                    <input
+                      type="file"
+                      name="experienceCertificate"
+                      onChange={handleFileChange}
+                      className="hidden"
+                      accept="image/*,.pdf"
+                    />
+                  </label>
+                  {formData.experienceCertificate && (
+                    <p className="text-xs text-green-600 mt-2 truncate">{formData.experienceCertificate.name}</p>
+                  )}
+                </div>
+                {errors.experienceCertificate && <p className="text-red-500 text-xs mt-1">{errors.experienceCertificate}</p>}
               </div>
-              {errors.trainingCertificate && <p className="text-red-500 text-sm mt-1">{errors.trainingCertificate}</p>}
+
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">Police Verification</label>
+                <div className="border border-dashed border-gray-300 rounded p-4 text-center transition-colors hover:border-[#8D2E7D] bg-gray-50">
+                  <label className="cursor-pointer flex flex-col items-center">
+                    <FaShieldAlt className="text-2xl text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600">Upload verification</p>
+                    <p className="text-xs text-gray-500 mt-1">(PDF, JPG, PNG, max 5MB)</p>
+                    <input
+                      type="file"
+                      name="policeVerification"
+                      onChange={handleFileChange}
+                      className="hidden"
+                      accept="image/*,.pdf"
+                    />
+                  </label>
+                  {formData.policeVerification && (
+                    <p className="text-xs text-green-600 mt-2 truncate">{formData.policeVerification.name}</p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         );
         
       case 4:
         return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-purple-800 flex items-center">
-              <FaUserNurse className="mr-2" /> Profile Completion
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold flex items-center" style={{ color: '#8D2E7D' }}>
+              <FaUserNurse className="mr-2 text-lg" /> Profile Completion
             </h2>
             
-            <div>
-              <label className="block text-gray-700 mb-1">Profile Photo*</label>
-              <div className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${errors.profilePhoto ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-purple-400 bg-gray-50'}`}>
-                <label className="cursor-pointer">
-                  <FaCamera className="mx-auto text-3xl text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-600">Click to upload your professional photo</p>
-                  <p className="text-xs text-gray-500 mt-1">(Clear face visible, preferably in uniform)</p>
-                  <input
-                    type="file"
-                    name="profilePhoto"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    accept="image/*"
-                  />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Profile Photo</RequiredLabel>
                 </label>
-                {formData.profilePhoto && (
-                  <p className="text-sm text-green-600 mt-2">{formData.profilePhoto.name}</p>
-                )}
+                <div className={`border border-dashed rounded p-4 text-center transition-colors ${errors.profilePhoto ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-[#8D2E7D] bg-gray-50'}`}>
+                  <label className="cursor-pointer flex flex-col items-center">
+                    <FaCamera className="text-2xl text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600">Upload professional photo</p>
+                    <p className="text-xs text-gray-500 mt-1">(JPG, PNG, max 5MB)</p>
+                    <input
+                      type="file"
+                      name="profilePhoto"
+                      onChange={handleFileChange}
+                      className="hidden"
+                      accept="image/*"
+                    />
+                  </label>
+                  {formData.profilePhoto && (
+                    <p className="text-xs text-green-600 mt-2 truncate">{formData.profilePhoto.name}</p>
+                  )}
+                </div>
+                {errors.profilePhoto && <p className="text-red-500 text-xs mt-1">{errors.profilePhoto}</p>}
               </div>
-              {errors.profilePhoto && <p className="text-red-500 text-sm mt-1">{errors.profilePhoto}</p>}
-            </div>
-            
-            <div>
-              <label className="block text-gray-700 mb-1">Resume/CV* (PDF preferred)</label>
-              <div className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${errors.resume ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-purple-400 bg-gray-50'}`}>
-                <label className="cursor-pointer">
-                  <FaFileAlt className="mx-auto text-3xl text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-600">Click to upload your resume</p>
-                  <p className="text-xs text-gray-500 mt-1">(Include all relevant certifications and experience)</p>
-                  <input
-                    type="file"
-                    name="resume"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    accept=".pdf,.doc,.docx"
-                  />
-                </label>
-                {formData.resume && (
-                  <p className="text-sm text-green-600 mt-2">{formData.resume.name}</p>
-                )}
-              </div>
-              {errors.resume && <p className="text-red-500 text-sm mt-1">{errors.resume}</p>}
-            </div>
-            
-            <div className="space-y-6 border-t pt-6">
-              <h3 className="text-xl font-semibold text-purple-700 flex items-center">
-                <FaClock className="mr-2" /> Availability
-              </h3>
               
               <div>
-                <label className="block text-gray-700 mb-1">Preferred Work Hours*</label>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Resume</RequiredLabel>
+                </label>
+                <div className={`border border-dashed rounded p-4 text-center transition-colors ${errors.resume ? 'border-red-500 bg-red-50' : 'border-gray-300 hover:border-[#8D2E7D] bg-gray-50'}`}>
+                  <label className="cursor-pointer flex flex-col items-center">
+                    <FaFileAlt className="text-2xl text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600">Upload your resume</p>
+                    <p className="text-xs text-gray-500 mt-1">(PDF, DOC, DOCX, max 5MB)</p>
+                    <input
+                      type="file"
+                      name="resume"
+                      onChange={handleFileChange}
+                      className="hidden"
+                      accept=".pdf,.doc,.docx"
+                    />
+                  </label>
+                  {formData.resume && (
+                    <p className="text-xs text-green-600 mt-2 truncate">{formData.resume.name}</p>
+                  )}
+                </div>
+                {errors.resume && <p className="text-red-500 text-xs mt-1">{errors.resume}</p>}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Work Hours</RequiredLabel>
+                </label>
                 <select
                   name="workHours"
                   value={formData.workHours}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                  className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-[#8D2E7D]"
                 >
                   <option value="Full-time">Full-time</option>
                   <option value="Part-time">Part-time</option>
@@ -449,52 +547,56 @@ const NurseRegistrationForm = () => {
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-1">Preferred Working Location/Area*</label>
+                <label className="block text-sm text-gray-700 mb-1">
+                  <RequiredLabel>Preferred Location</RequiredLabel>
+                </label>
                 <div className="flex items-center">
-                  <FaMapMarkerAlt className="text-gray-400 mr-2" />
+                  <FaMapMarkerAlt className="text-gray-400 mr-2 text-sm" />
                   <input
                     type="text"
                     name="preferredLocation"
                     value={formData.preferredLocation}
                     onChange={handleChange}
-                    className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 ${errors.preferredLocation ? 'border-red-500' : 'border-gray-300'}`}
-                    placeholder="Preferred city or area"
+                    className={`w-full p-2 text-sm border rounded focus:ring-1 ${errors.preferredLocation ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-[#8D2E7D]'}`}
+                    placeholder="City or area where you want to work"
                   />
                 </div>
-                {errors.preferredLocation && <p className="text-red-500 text-sm mt-1">{errors.preferredLocation}</p>}
+                {errors.preferredLocation && <p className="text-red-500 text-xs mt-1">{errors.preferredLocation}</p>}
               </div>
-              
-              <div>
-                <label className="block text-gray-700 mb-1">Immediate Joining?*</label>
-                <div className="flex space-x-4">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="immediateJoining"
-                      value="Yes"
-                      checked={formData.immediateJoining === 'Yes'}
-                      onChange={handleChange}
-                      className="h-4 w-4 text-purple-600"
-                    />
-                    <span className="ml-2 text-gray-700">Yes</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="immediateJoining"
-                      value="No"
-                      checked={formData.immediateJoining === 'No'}
-                      onChange={handleChange}
-                      className="h-4 w-4 text-purple-600"
-                    />
-                    <span className="ml-2 text-gray-700">No</span>
-                  </label>
-                </div>
+            </div>
+            
+            <div className="pt-2">
+              <label className="block text-sm text-gray-700 mb-1">Immediate Joining?*</label>
+              <div className="flex space-x-4">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="immediateJoining"
+                    value="Yes"
+                    checked={formData.immediateJoining === 'Yes'}
+                    onChange={handleChange}
+                    className="h-4 w-4"
+                    style={{ color: '#8D2E7D' }}
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Yes</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="immediateJoining"
+                    value="No"
+                    checked={formData.immediateJoining === 'No'}
+                    onChange={handleChange}
+                    className="h-4 w-4"
+                    style={{ color: '#8D2E7D' }}
+                  />
+                  <span className="ml-2 text-sm text-gray-700">No</span>
+                </label>
               </div>
             </div>
 
-            <div className="bg-purple-50 p-4 rounded-lg border border-purple-100 mt-6">
-              <h3 className="font-bold text-purple-800 mb-2">Consent & Declaration</h3>
+            <div className="p-4 rounded border mt-4 text-sm" style={{ backgroundColor: '#F3F3F3', borderColor: '#8D2E7D' }}>
+              <h3 className="font-bold mb-2" style={{ color: '#8D2E7D' }}>Consent & Declaration</h3>
               <div className="space-y-3">
                 <div className="flex items-start">
                   <input 
@@ -503,13 +605,14 @@ const NurseRegistrationForm = () => {
                     checked={formData.termsAccepted}
                     onChange={(e) => setFormData({...formData, termsAccepted: e.target.checked})}
                     className={`mt-1 mr-2 ${errors.termsAccepted ? 'border-red-500' : ''}`}
+                    style={{ color: '#8D2E7D' }}
                     required
                   />
                   <label className="text-sm text-gray-700">
-                    I accept the terms & conditions and privacy policy.
+                    <RequiredLabel>I accept the terms & conditions of service</RequiredLabel>
                   </label>
                 </div>
-                {errors.termsAccepted && <p className="text-red-500 text-sm mt-1">{errors.termsAccepted}</p>}
+                {errors.termsAccepted && <p className="text-red-500 text-xs mt-1">{errors.termsAccepted}</p>}
                 
                 <div className="flex items-start">
                   <input 
@@ -518,10 +621,11 @@ const NurseRegistrationForm = () => {
                     checked={formData.documentVerification}
                     onChange={(e) => setFormData({...formData, documentVerification: e.target.checked})}
                     className={`mt-1 mr-2 ${errors.documentVerification ? 'border-red-500' : ''}`}
+                    style={{ color: '#8D2E7D' }}
                     required
                   />
                   <label className="text-sm text-gray-700">
-                    I confirm all details are true to the best of my knowledge.
+                    <RequiredLabel>I confirm all details provided are accurate and verifiable</RequiredLabel>
                   </label>
                 </div>
                 
@@ -532,18 +636,18 @@ const NurseRegistrationForm = () => {
                     checked={formData.documentVerification}
                     onChange={(e) => setFormData({...formData, documentVerification: e.target.checked})}
                     className={`mt-1 mr-2 ${errors.documentVerification ? 'border-red-500' : ''}`}
+                    style={{ color: '#8D2E7D' }}
                     required
                   />
                   <label className="text-sm text-gray-700">
-                    I authorize MR.Care to verify my documents.
+                    <RequiredLabel>I authorize the verification of all submitted documents</RequiredLabel>
                   </label>
                 </div>
-                {errors.documentVerification && <p className="text-red-500 text-sm mt-1">{errors.documentVerification}</p>}
+                {errors.documentVerification && <p className="text-red-500 text-xs mt-1">{errors.documentVerification}</p>}
               </div>
               
               <p className="text-xs text-gray-500 mt-3">
-                After submission, our team will verify your documents. This process typically takes 2-3 business days.
-                You'll receive an email notification once your profile is approved.
+                Verification process typically takes 2-3 business days. You'll receive email confirmation once your application is approved.
               </p>
             </div>
           </div>
@@ -555,40 +659,42 @@ const NurseRegistrationForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-900 to-purple-700 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-        {/* Progress Bar with Steps */}
-        <div className="bg-gray-100 px-6 py-4">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#F3F3F3' }}>
+      <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-sm overflow-hidden">
+        <div className="px-6 py-4" style={{ backgroundColor: '#F3F3F3' }}>
           <div className="flex justify-between items-center mb-2">
             {[1, 2, 3, 4].map((step) => (
-              <div key={step} className="flex flex-col items-center">
+              <div key={step} className="flex flex-col items-center flex-1">
                 <div 
-                  className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep >= step ? 'bg-purple-700 text-white' : 'bg-gray-300 text-gray-600'}`}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${currentStep >= step ? 'text-white' : 'bg-gray-300 text-gray-600'}`}
+                  style={{ backgroundColor: currentStep >= step ? '#8D2E7D' : '' }}
                 >
                   {step}
                 </div>
-                <span className={`text-xs mt-1 ${currentStep >= step ? 'text-purple-700 font-medium' : 'text-gray-500'}`}>
-                  {step === 1 && 'Personal'}
-                  {step === 2 && 'Aadhar'}
-                  {step === 3 && 'Education'}
-                  {step === 4 && 'Profile'}
+                <span className={`text-xs mt-1 ${currentStep >= step ? 'font-medium' : 'text-gray-500'}`}
+                  style={{ color: currentStep >= step ? '#8D2E7D' : '' }}
+                >
+                  {step === 1 && 'Personal Info'}
+                  {step === 2 && 'Aadhar Details'}
+                  {step === 3 && 'Education & Experience'}
+                  {step === 4 && 'Profile Setup'}
                 </span>
               </div>
             ))}
           </div>
           <div className="bg-gray-200 h-2 rounded-full overflow-hidden">
             <div 
-              className="bg-purple-700 h-2 transition-all duration-300 ease-out" 
-              style={{ width: `${((currentStep - 1) / 3) * 100}%` }}
+              className="h-2 transition-all duration-300 ease-out" 
+              style={{ width: `${((currentStep - 1) / 3) * 100}%`, backgroundColor: '#8D2E7D' }}
             ></div>
           </div>
         </div>
         
-        <div className="p-6 sm:p-8">
+        <div className="p-6">
           {!isSubmitted && (
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-purple-800 mb-2">Nurse Registration</h1>
-              <p className="text-gray-600">Join Mr. Care's network of professional healthcare providers</p>
+            <div className="text-center mb-6">
+              <h1 className="text-2xl font-bold mb-2" style={{ color: '#8D2E7D' }}>Nurse Registration Form</h1>
+              <p className="text-gray-600 text-sm">Join our network of professional healthcare providers</p>
             </div>
           )}
           
@@ -596,14 +702,14 @@ const NurseRegistrationForm = () => {
             {renderStep()}
             
             {!isSubmitted && (
-              <div className="flex justify-between mt-10">
+              <div className="flex justify-between mt-8">
                 {currentStep > 1 ? (
                   <button
                     type="button"
                     onClick={prevStep}
-                    className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                    className="px-6 py-2 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
                   >
-                    Back
+                    Previous
                   </button>
                 ) : (
                   <div></div>
@@ -613,15 +719,17 @@ const NurseRegistrationForm = () => {
                   <button
                     type="button"
                     onClick={nextStep}
-                    className="px-6 py-2 bg-purple-700 text-white rounded-lg hover:bg-purple-800 transition-colors"
+                    className="px-6 py-2 text-sm text-white rounded-lg hover:bg-[#7a276d] transition-colors"
+                    style={{ backgroundColor: '#8D2E7D' }}
                   >
-                    Next
+                    Continue
                   </button>
                 ) : (
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`px-6 py-2 text-white rounded-lg transition-colors ${isSubmitting ? 'bg-purple-500' : 'bg-purple-700 hover:bg-purple-800'}`}
+                    className={`px-6 py-2 text-sm text-white rounded-lg transition-colors ${isSubmitting ? 'bg-[#a85a9a]' : 'hover:bg-[#7a276d]'}`}
+                    style={{ backgroundColor: '#8D2E7D' }}
                   >
                     {isSubmitting ? 'Submitting...' : 'Submit Application'}
                   </button>
